@@ -291,11 +291,7 @@ function initNavigation() {
     if (navToggle) {
         navToggle.addEventListener('click', () => {
             navMenu.classList.toggle('active');
-            
-            // 動畫效果
-            const spans = navToggle.querySelectorAll('span');
-            spans.forEach(span => span.style.transform = 
-                navMenu.classList.contains('active') ? 'rotate(45deg)' : 'rotate(0)');
+            navToggle.classList.toggle('active');
         });
     }
 
@@ -317,6 +313,7 @@ function initNavigation() {
                 // 移動端選單關閉
                 if (navMenu && navMenu.classList.contains('active')) {
                     navMenu.classList.remove('active');
+                    navToggle.classList.remove('active');
                 }
             }
         });

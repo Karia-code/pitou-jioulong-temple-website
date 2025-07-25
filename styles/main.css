@@ -217,6 +217,13 @@ body {
     flex-direction: column;
     cursor: pointer;
     gap: 4px;
+    padding: 8px;
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-normal);
+}
+
+.nav-toggle:hover {
+    background: rgba(44, 62, 80, 0.1);
 }
 
 .nav-toggle span {
@@ -224,13 +231,32 @@ body {
     height: 3px;
     background: var(--primary-color);
     transition: all var(--transition-normal);
+    border-radius: 2px;
+    transform-origin: center;
+}
+
+/* Hamburger 動畫 */
+.nav-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(6px, 6px);
+}
+
+.nav-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.nav-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(6px, -6px);
 }
 
 /* 響應式導航 */
 @media (max-width: 768px) {
+    .nav-container {
+        padding: 0 var(--spacing-md);
+    }
+    
     .nav-menu {
         position: fixed;
-        top: 100%;
+        top: 70px; /* 導航欄高度 */
         left: 0;
         right: 0;
         background: var(--background-white);
@@ -241,6 +267,8 @@ body {
         visibility: hidden;
         transition: all var(--transition-normal);
         box-shadow: 0 10px 30px var(--shadow-medium);
+        z-index: 999;
+        border-top: 2px solid var(--accent-color);
     }
     
     .nav-menu.active {
@@ -249,8 +277,20 @@ body {
         visibility: visible;
     }
     
+    .nav-link {
+        padding: var(--spacing-sm) 0;
+        border-bottom: 1px solid var(--border-light);
+        text-align: center;
+        font-size: 1.1rem;
+    }
+    
+    .nav-link:last-child {
+        border-bottom: none;
+    }
+    
     .nav-toggle {
         display: flex;
+        z-index: 1000;
     }
 }
 
@@ -474,6 +514,24 @@ body {
     
     .hero {
         padding-top: 100px; /* 小螢幕留更多空間 */
+        min-height: 100vh;
+    }
+    
+    .hero-description {
+        font-size: 1rem;
+        line-height: 1.6;
+        padding: var(--spacing-sm);
+        margin-bottom: var(--spacing-md);
+    }
+    
+    .hero-buttons {
+        gap: var(--spacing-xs);
+    }
+    
+    .btn {
+        width: 180px;
+        font-size: 0.9rem;
+        padding: 10px 20px;
     }
 }
 
@@ -2449,10 +2507,21 @@ section {
     .hero-buttons {
         flex-direction: column;
         align-items: center;
+        gap: var(--spacing-sm);
     }
     
     .btn {
         width: 200px;
+        font-size: 1rem;
+        padding: 12px 24px;
+    }
+    
+    .hero-description {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        padding: var(--spacing-md);
+        margin-bottom: var(--spacing-lg);
+        text-align: center;
     }
     
     .features {
