@@ -522,8 +522,11 @@ body {
     
     /* 手機版圖片標題調整 */
     .hero-title-image-file {
-        max-width: min(90vw, 350px) !important;
-        margin-bottom: 1.2rem !important;
+        max-width: min(80vw, 320px) !important;
+        margin: 0 0 1.2rem 8% !important; /* 小屏幕左邊偏移8% */
+        transform: rotate(-1deg) translateX(-15px) !important; /* 更多向左偏移 */
+        position: relative !important;
+        z-index: 99999 !important; /* 確保在最上層 */
     }
     
     .hero {
@@ -585,9 +588,10 @@ body {
         drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3))
         drop-shadow(4px 4px 8px rgba(0, 0, 0, 0.2)) !important;
     transition: all 0.3s ease !important;
-    z-index: 10 !important;
+    z-index: 99999 !important; /* 提高層級 */
     opacity: 0.95 !important;
     transform: rotate(-1deg) !important; /* 輕微逆時針旋轉修正傾斜 */
+    position: relative !important; /* 確保層級生效 */
 }
 
 .hero-title-image-file:hover {
@@ -2604,8 +2608,11 @@ section {
     
     /* 手機版圖片標題調整 */
     .hero-title-image-file {
-        max-width: min(90vw, 400px) !important;
-        margin-bottom: 1.5rem !important;
+        max-width: min(85vw, 380px) !important;
+        margin: 0 0 1.5rem 5% !important; /* 左邊偏移5% */
+        transform: rotate(-1deg) translateX(-10px) !important; /* 增加向左偏移 */
+        position: relative !important;
+        z-index: 99999 !important; /* 確保在最上層 */
     }
     
     /* 手機版標題圖檔調整 */
