@@ -593,6 +593,12 @@ function loadServicesContent() {
             features: ['個人祈福', '家庭平安', '事業順利', '健康長壽']
         },
         {
+            title: '婚喪喜慶',
+            description: '協助信眾處理人生重要時刻的宗教儀式',
+            icon: '💒',
+            features: ['婚禮祝福', '喪禮超度', '滿月祝福', '成年禮']
+        },
+        {
             title: '文化教育',
             description: '推廣傳統宗教文化，舉辦各種文化教育活動',
             icon: '📖',
@@ -673,65 +679,6 @@ function loadServicesContent() {
             font-size: 1.2rem;
             position: absolute;
             left: 0;
-        }
-
-        /* 九龍真經特殊樣式 */
-        .scripture-card {
-            background: linear-gradient(135deg, #f4f1e8 0%, #faf8f3 100%);
-            border: 3px solid rgba(139, 69, 19, 0.3);
-            box-shadow: 0 15px 35px rgba(139, 69, 19, 0.2);
-            position: relative;
-        }
-        
-        .scripture-card::before {
-            content: '';
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            right: 10px;
-            bottom: 10px;
-            border: 1px solid rgba(212, 165, 116, 0.4);
-            border-radius: var(--radius-md);
-            pointer-events: none;
-        }
-        
-        .scripture-card .service-title {
-            font-size: 1.5rem;
-            color: var(--secondary-color);
-            letter-spacing: 0.2em;
-            font-weight: 600;
-        }
-        
-        .scripture-card .service-description {
-            font-family: var(--font-serif);
-            font-size: 1.1rem;
-            color: rgba(139, 69, 19, 0.9);
-            font-weight: 500;
-            letter-spacing: 0.1em;
-            line-height: 1.8;
-        }
-        
-        .scripture-features {
-            background: rgba(255, 255, 255, 0.6);
-            border-radius: var(--radius-md);
-            padding: var(--spacing-md);
-            margin-top: var(--spacing-md);
-        }
-        
-        .scripture-features li {
-            font-family: var(--font-serif);
-            font-size: 1rem;
-            line-height: 1.8;
-            color: rgba(44, 24, 16, 0.85);
-            letter-spacing: 0.05em;
-            margin-bottom: var(--spacing-sm);
-            text-align: justify;
-        }
-        
-        .scripture-features li::before {
-            content: '◆';
-            color: var(--secondary-color);
-            font-size: 1rem;
         }
     `;
     document.head.appendChild(style);

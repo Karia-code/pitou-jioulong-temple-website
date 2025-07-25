@@ -256,12 +256,13 @@ body {
 
 /* 主頁橫幅 - 仙俠風格 */
 .hero {
-    height: 100vh;
+    height: 110vh; /* 調整高度給滾動指示器適當空間 */
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
+    padding: 80px var(--spacing-md) 0; /* 為導航欄留出空間 */
     background: 
         linear-gradient(135deg, rgba(139, 69, 19, 0.1) 0%, rgba(212, 165, 116, 0.2) 100%),
         radial-gradient(circle at 30% 70%, rgba(139, 69, 19, 0.15) 0%, transparent 50%),
@@ -317,19 +318,110 @@ body {
     }
 }
 
+/* 潑墨轉場效果 */
+.ink-drop-transition {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 4; /* 確保在hero-content下方 */
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.ink-drop {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: radial-gradient(circle, 
+        rgba(44, 62, 80, 0.9) 0%, 
+        rgba(139, 69, 19, 0.7) 40%, 
+        rgba(44, 62, 80, 0.5) 70%, 
+        transparent 100%);
+    border-radius: 50%;
+    animation: inkDrop 3s ease-in forwards;
+    opacity: 0;
+}
+
+@keyframes inkDrop {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.5);
+    }
+    10% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    30% {
+        transform: translateY(50vh) scale(1.5);
+        opacity: 0.8;
+    }
+    60% {
+        transform: translateY(80vh) scale(2.5);
+        opacity: 0.6;
+    }
+    80% {
+        transform: translateY(95vh) scale(4);
+        opacity: 0.4;
+    }
+    100% {
+        transform: translateY(110vh) scale(8);
+        opacity: 0;
+    }
+}
+
+.ink-splash {
+    position: absolute;
+    bottom: -50px;
+    width: 100px;
+    height: 50px;
+    background: radial-gradient(ellipse, 
+        rgba(44, 62, 80, 0.6) 0%, 
+        rgba(139, 69, 19, 0.4) 30%, 
+        transparent 70%);
+    border-radius: 50%;
+    animation: inkSplash 1s ease-out forwards;
+    opacity: 0;
+}
+
+@keyframes inkSplash {
+    0% {
+        opacity: 0;
+        transform: scale(0) rotate(0deg);
+    }
+    50% {
+        opacity: 0.8;
+        transform: scale(1.5) rotate(180deg);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(3) rotate(360deg);
+    }
+}
+
 .hero-background {
-    display: none; /* 隱藏原本的照片背景 */
+    display: none; /* 隱藏照片背景，使用宣紙風格 */
+}
+
+.hero-bg-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.3;
 }
 
 .hero-overlay {
-    display: none; /* 移除原本的遮罩 */
+    display: none; /* 移除遮罩，保持宣紙清爽感 */
 }
 
 .hero-content {
     text-align: center;
     position: relative;
-    z-index: 3;
+    z-index: 5; /* 提高層級，確保在最上層 */
     max-width: 900px;
+    width: 90%; /* 確保有適當的寬度 */
+    margin: 0 auto; /* 水平居中 */
     padding: var(--spacing-xl) var(--spacing-md);
     background: rgba(244, 241, 232, 0.85);
     border-radius: var(--radius-lg);
@@ -338,7 +430,51 @@ body {
     box-shadow: 
         0 20px 40px rgba(139, 69, 19, 0.2),
         inset 0 1px 0 rgba(255, 255, 255, 0.3);
-    position: relative;
+}
+
+/* Hero content 響應式調整 */
+@media (max-width: 1200px) {
+    .hero-content {
+        max-width: 800px;
+        width: 95%;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-content {
+        max-width: 90%;
+        width: 95%;
+        padding: var(--spacing-lg) var(--spacing-sm);
+        margin: 0 auto;
+    }
+    
+    /* 平板版圖片標題調整 */
+    .hero-title-image-file {
+        max-width: min(85vw, 500px) !important;
+        margin-bottom: 1.8rem !important;
+    }
+    
+    .hero {
+        padding-top: 90px; /* 手機版導航欄可能較高 */
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-content {
+        width: 95%;
+        margin: 0 auto;
+        padding: var(--spacing-md) var(--spacing-xs);
+    }
+    
+    /* 手機版圖片標題調整 */
+    .hero-title-image-file {
+        max-width: min(90vw, 350px) !important;
+        margin-bottom: 1.2rem !important;
+    }
+    
+    .hero {
+        padding-top: 100px; /* 小螢幕留更多空間 */
+    }
 }
 
 /* 書法風格裝飾邊框 */
@@ -366,6 +502,89 @@ body {
     pointer-events: none;
 }
 
+/* 九龍殿圖片標題樣式 */
+.hero-title-image-file {
+    display: block !important;
+    margin: 0 auto 2rem auto !important;
+    max-width: min(80vw, 600px) !important;
+    height: auto !important;
+    filter: 
+        brightness(0) /* 將圖片變成黑色 */
+        drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3))
+        drop-shadow(4px 4px 8px rgba(0, 0, 0, 0.2)) !important;
+    transition: all 0.3s ease !important;
+    z-index: 10 !important;
+    opacity: 0.95 !important;
+    transform: rotate(-1deg) !important; /* 輕微逆時針旋轉修正傾斜 */
+}
+
+.hero-title-image-file:hover {
+    transform: rotate(-1deg) scale(1.02) !important; /* 保持旋轉角度 */
+    filter: 
+        brightness(0) 
+        drop-shadow(3px 3px 6px rgba(0, 0, 0, 0.4))
+        drop-shadow(6px 6px 12px rgba(0, 0, 0, 0.3)) !important;
+}
+
+/* 九龍殿黑色標題樣式 - 模擬圖檔中的書法字體 */
+.hero-title-black {
+    font-family: 'Noto Serif TC', '思源宋體', serif !important;
+    font-size: clamp(4rem, 12vw, 8rem) !important;
+    font-weight: 900 !important;
+    color: #1a1a1a !important;
+    letter-spacing: 0.15em !important;
+    text-shadow: 
+        2px 2px 4px rgba(0, 0, 0, 0.9),
+        4px 4px 8px rgba(0, 0, 0, 0.6),
+        0 0 15px rgba(0, 0, 0, 0.4),
+        6px 6px 12px rgba(0, 0, 0, 0.3) !important;
+    position: relative !important;
+    line-height: 1.1 !important;
+    display: block !important;
+    margin-bottom: 2rem !important;
+    text-align: center !important;
+    filter: 
+        drop-shadow(4px 4px 8px rgba(0, 0, 0, 0.8))
+        contrast(1.2)
+        saturate(0.8) !important;
+    -webkit-text-stroke: 2px rgba(0, 0, 0, 0.5) !important;
+    z-index: 10 !important;
+    transform: scale(1.02) !important;
+    font-variant: small-caps !important;
+}
+
+/* 九龍殿標題圖檔樣式 */
+.hero-title-image {
+    position: relative;
+    display: block !important; /* 改為block確保正確顯示 */
+    margin-bottom: 2rem; /* 使用固定值而非CSS變數 */
+    text-align: center; /* 確保居中 */
+    width: 100%; /* 確保寬度 */
+    min-height: 120px; /* 確保有高度 */
+    /* 臨時調試背景 */
+    /* background: rgba(255, 0, 0, 0.1); */
+}
+
+.hero-title-image::before {
+    content: '九龍殿';
+    font-family: 'Noto Serif TC', serif; /* 直接指定字體 */
+    font-size: clamp(3.5rem, 10vw, 7rem);
+    font-weight: 900;
+    color: #000000 !important; /* 添加!important確保優先級 */
+    letter-spacing: 0.2em;
+    text-shadow: 
+        1px 1px 2px rgba(0, 0, 0, 0.8),
+        2px 2px 4px rgba(0, 0, 0, 0.5),
+        0 0 10px rgba(0, 0, 0, 0.3);
+    position: relative;
+    line-height: 1.2;
+    display: block !important; /* 添加!important確保顯示 */
+    filter: drop-shadow(3px 3px 6px rgba(0, 0, 0, 0.7));
+    -webkit-text-stroke: 1px rgba(0, 0, 0, 0.3); /* 添加描邊效果 */
+    text-align: center; /* 確保文字居中 */
+    z-index: 10; /* 確保顯示在上層 */
+}
+
 .hero-title {
     font-family: var(--font-serif);
     font-size: clamp(3.5rem, 10vw, 7rem);
@@ -380,18 +599,7 @@ body {
     line-height: 1.2;
 }
 
-/* 書法筆觸效果 */
-.hero-title::before {
-    content: '九龍殿';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    color: rgba(139, 69, 19, 0.1);
-    transform: translate(6px, 6px);
-    z-index: -1;
-    font-weight: 900;
-}
+/* 原有的hero-subtitle樣式保持不變但現在不會顯示 */
 
 .hero-subtitle {
     font-size: 1.6rem;
@@ -431,10 +639,10 @@ body {
 
 .scroll-indicator {
     position: absolute;
-    bottom: var(--spacing-lg);
-    left: 50%;
+    bottom: -5px; /* 再往上調整 */
+    left: 50%; /* 修正為水平居中 */
     transform: translateX(-50%);
-    z-index: 4;
+    z-index: 50; /* 大幅提高層級確保絕對不會被遮擋 */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -443,13 +651,19 @@ body {
 
 .scroll-indicator::before {
     content: '下探聖境';
-    color: rgba(139, 69, 19, 0.8);
-    font-size: 1rem;
+    color: rgba(139, 69, 19, 0.9); /* 增加不透明度 */
+    font-size: 1.1rem; /* 稍微放大字體 */
     font-family: var(--font-serif);
     letter-spacing: 0.3em;
-    font-weight: 500;
+    font-weight: 600; /* 增加字重 */
     animation: fadeInOut 4s infinite ease-in-out;
-    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+    text-shadow: 
+        1px 1px 2px rgba(255, 255, 255, 0.8),
+        0 0 10px rgba(244, 241, 232, 0.5); /* 增強文字陰影 */
+    background: rgba(244, 241, 232, 0.2); /* 添加背景 */
+    padding: 0.3em 0.8em;
+    border-radius: 20px;
+    border: 1px solid rgba(139, 69, 19, 0.3);
 }
 
 @keyframes fadeInOut {
@@ -781,12 +995,794 @@ section {
 /* 歷史章節 */
 .history {
     background: var(--background-light);
+    position: relative;
+    overflow: hidden;
 }
 
 .timeline {
     max-width: 800px;
     margin: 0 auto;
     padding: var(--spacing-md) 0;
+}
+
+/* 古代卷軸容器 */
+.scroll-container {
+    max-width: 900px;
+    margin: var(--spacing-xl) auto;
+    position: relative;
+    perspective: 1000px;
+}
+
+/* 卷軸軸桿 */
+.scroll-rod {
+    height: 40px;
+    background: linear-gradient(90deg, 
+        #8b4513 0%, 
+        #a0522d 20%, 
+        #cd853f 40%, 
+        #daa520 50%, 
+        #cd853f 60%, 
+        #a0522d 80%, 
+        #8b4513 100%);
+    border-radius: 20px;
+    position: relative;
+    box-shadow: 
+        0 8px 20px rgba(139, 69, 19, 0.4),
+        inset 0 4px 8px rgba(218, 165, 32, 0.3),
+        inset 0 -4px 8px rgba(139, 69, 19, 0.6);
+    z-index: 3;
+}
+
+.scroll-rod::before {
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
+    background: repeating-linear-gradient(90deg,
+        transparent 0px,
+        rgba(139, 69, 19, 0.2) 2px,
+        rgba(139, 69, 19, 0.2) 4px,
+        transparent 6px);
+    border-radius: 15px;
+}
+
+.scroll-rod::after {
+    content: '';
+    position: absolute;
+    top: 15px;
+    left: -10px;
+    right: -10px;
+    height: 10px;
+    background: linear-gradient(90deg, 
+        #654321 0%, 
+        #8b4513 50%, 
+        #654321 100%);
+    border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.scroll-rod.top {
+    margin-bottom: -20px;
+    z-index: 4;
+}
+
+.scroll-rod.bottom {
+    margin-top: -20px;
+    z-index: 4;
+}
+
+/* 卷軸紙張 */
+.scroll-paper {
+    background: 
+        radial-gradient(circle at 20% 80%, rgba(139, 69, 19, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(212, 165, 116, 0.06) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(139, 69, 19, 0.04) 0%, transparent 50%),
+        #faf8f5;
+    
+    /* 宣紙紋理 */
+    background-image: 
+        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100"><defs><filter id="paperTexture2"><feTurbulence baseFrequency="0.04" numOctaves="4" result="noise" seed="5"/><feDiffuseLighting in="noise" lighting-color="white" surfaceScale="0.3"><feDistantLight azimuth="45" elevation="60"/></feDiffuseLighting></filter></defs><rect width="100%" height="100%" fill="%23f8f6f0" filter="url(%23paperTexture2)" opacity="0.8"/></svg>');
+    
+    border: 3px solid rgba(139, 69, 19, 0.2);
+    border-top: 1px solid rgba(139, 69, 19, 0.3);
+    border-bottom: 1px solid rgba(139, 69, 19, 0.3);
+    box-shadow: 
+        0 0 30px rgba(139, 69, 19, 0.2),
+        inset 0 0 50px rgba(139, 69, 19, 0.05);
+    position: relative;
+    z-index: 2;
+    overflow: hidden;
+}
+
+/* 卷軸邊緣磨損效果 */
+.scroll-paper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 20px;
+    background: linear-gradient(180deg, 
+        rgba(139, 69, 19, 0.1) 0%, 
+        rgba(139, 69, 19, 0.05) 50%, 
+        transparent 100%);
+    z-index: 1;
+}
+
+.scroll-paper::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 20px;
+    background: linear-gradient(0deg, 
+        rgba(139, 69, 19, 0.1) 0%, 
+        rgba(139, 69, 19, 0.05) 50%, 
+        transparent 100%);
+    z-index: 1;
+}
+
+/* 卷軸內容 */
+.scroll-content {
+    padding: var(--spacing-xl) var(--spacing-lg);
+    position: relative;
+    z-index: 2;
+    max-height: 800px;
+    overflow-y: auto;
+    
+    /* 自定義滾動條 */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(139, 69, 19, 0.3) transparent;
+}
+
+.scroll-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.scroll-content::-webkit-scrollbar-track {
+    background: rgba(139, 69, 19, 0.1);
+    border-radius: 4px;
+}
+
+.scroll-content::-webkit-scrollbar-thumb {
+    background: rgba(139, 69, 19, 0.3);
+    border-radius: 4px;
+    transition: background var(--transition-normal);
+}
+
+.scroll-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(139, 69, 19, 0.5);
+}
+
+/* 修改原有的歷史內容樣式以適應卷軸 */
+.scroll-content .sacred-poem,
+.scroll-content .historical-poem,
+.scroll-content .deity-biography {
+    background: rgba(255, 255, 255, 0.3);
+    border: 2px solid rgba(139, 69, 19, 0.2);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+    box-shadow: 0 4px 15px rgba(139, 69, 19, 0.1);
+    backdrop-filter: blur(2px);
+}
+
+.scroll-content .sacred-poem:last-child,
+.scroll-content .historical-poem:last-child,
+.scroll-content .deity-biography:last-child {
+    margin-bottom: 0;
+}
+
+/* 響應式調整 */
+@media (max-width: 768px) {
+    .scroll-container {
+        max-width: 95%;
+        margin: var(--spacing-lg) auto;
+    }
+    
+    .scroll-content {
+        padding: var(--spacing-lg) var(--spacing-md);
+        max-height: 600px;
+    }
+    
+    .scroll-rod {
+        height: 30px;
+        border-radius: 15px;
+    }
+    
+    .scroll-rod::after {
+        top: 10px;
+        height: 8px;
+    }
+}
+
+/* 聖祖鴻恩詩詞 */
+.sacred-poem {
+    background: rgba(244, 241, 232, 0.9);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    margin-bottom: var(--spacing-xl);
+    border: 3px solid rgba(139, 69, 19, 0.3);
+    box-shadow: 0 15px 35px rgba(139, 69, 19, 0.2);
+    backdrop-filter: blur(5px);
+    text-align: center;
+}
+
+.sacred-poem h3 {
+    font-family: var(--font-serif);
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-lg);
+    letter-spacing: 0.3em;
+    position: relative;
+}
+
+.sacred-poem h3::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: var(--gradient-accent);
+    border-radius: 2px;
+}
+
+.poem-text p {
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    line-height: 2.2;
+    color: rgba(44, 24, 16, 0.9);
+    margin-bottom: var(--spacing-md);
+    letter-spacing: 0.2em;
+    padding: 0.3rem 0;
+}
+
+.center-verse {
+    margin: var(--spacing-lg) 0;
+    padding: var(--spacing-md);
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(139, 69, 19, 0.2);
+}
+
+.center-verse p {
+    font-weight: 600;
+    color: rgba(139, 69, 19, 0.9);
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+/* 歷史詩詞雙欄排版 */
+.historical-poem {
+    background: rgba(244, 241, 232, 0.85);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    margin-bottom: var(--spacing-xl);
+    border: 2px solid rgba(139, 69, 19, 0.3);
+    box-shadow: 0 10px 25px rgba(139, 69, 19, 0.15);
+}
+
+.historical-poem h3 {
+    font-family: var(--font-serif);
+    font-size: 1.8rem;
+    color: var(--secondary-color);
+    margin-bottom: var(--spacing-lg);
+    text-align: center;
+    letter-spacing: 0.2em;
+}
+
+.poem-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-xl);
+    align-items: start;
+}
+
+.poem-column p {
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: rgba(44, 24, 16, 0.8);
+    margin-bottom: var(--spacing-sm);
+    letter-spacing: 0.1em;
+    padding: var(--spacing-xs) 0;
+    border-bottom: 1px solid rgba(139, 69, 19, 0.1);
+}
+
+/* 神明傳記 */
+.deity-biography {
+    background: rgba(244, 241, 232, 0.95);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    margin-bottom: var(--spacing-xl);
+    border: 3px solid rgba(139, 69, 19, 0.4);
+    box-shadow: 0 20px 40px rgba(139, 69, 19, 0.25);
+    backdrop-filter: blur(8px);
+    position: relative;
+}
+
+.deity-biography::before {
+    content: '';
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    right: 15px;
+    bottom: 15px;
+    border: 1px solid rgba(212, 165, 116, 0.4);
+    border-radius: var(--radius-md);
+    pointer-events: none;
+}
+
+.deity-biography h3 {
+    font-family: var(--font-serif);
+    font-size: 2.2rem;
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-lg);
+    text-align: center;
+    letter-spacing: 0.3em;
+    position: relative;
+    padding-bottom: var(--spacing-sm);
+}
+
+.deity-biography h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, rgba(139, 69, 19, 0.8), transparent);
+}
+
+.biography-content p {
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+    line-height: 1.9;
+    color: rgba(44, 24, 16, 0.85);
+    margin-bottom: var(--spacing-lg);
+    text-align: justify;
+    letter-spacing: 0.08em;
+    text-indent: 2em;
+    padding: 0.5rem 0;
+}
+
+/* 結尾詩詞 */
+.closing-poem {
+    margin-top: var(--spacing-xl);
+    padding: var(--spacing-lg);
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: var(--radius-md);
+    border: 2px solid rgba(139, 69, 19, 0.3);
+    text-align: center;
+}
+
+.closing-poem h4 {
+    font-family: var(--font-serif);
+    font-size: 1.3rem;
+    color: var(--secondary-color);
+    margin-bottom: var(--spacing-md);
+    letter-spacing: 0.2em;
+}
+
+.closing-poem .poem-verses {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-xs);
+}
+
+.closing-poem p {
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: rgba(139, 69, 19, 0.9);
+    margin-bottom: 0;
+    letter-spacing: 0.15em;
+    text-indent: 0;
+    font-weight: 500;
+    padding: 0.2rem 0;
+}
+
+/* 響應式調整 */
+@media (max-width: 768px) {
+    .poem-columns {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-lg);
+    }
+    
+    .history-content {
+        padding: var(--spacing-lg) var(--spacing-sm);
+    }
+    
+    .sacred-poem,
+    .historical-poem,
+    .deity-biography {
+        padding: var(--spacing-lg) var(--spacing-md);
+    }
+    
+    .sacred-poem h3,
+    .deity-biography h3 {
+        font-size: 1.6rem;
+    }
+    
+    .poem-text p,
+    .biography-content p {
+        font-size: 1rem;
+    }
+}
+
+/* 鯉魚裝飾效果 - 移至活動祭典區域 */
+.events {
+    background: var(--background-white);
+    position: relative; /* 為鯉魚定位提供基準 */
+    min-height: 500px; /* 確保有足夠高度容納鯉魚裝飾 */
+    padding-bottom: var(--spacing-xxl); /* 為鯉魚留出空間 */
+}
+
+.events-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--spacing-lg);
+}
+
+.events .fish-decoration {
+    position: absolute;
+    bottom: 10%; /* 位於區域底部 */
+    right: 8%; /* 位於區域右側 */
+    width: 220px; /* 調小尺寸 */
+    height: auto;
+    z-index: 2;
+    pointer-events: none;
+    opacity: 0.85; /* 稍微降低透明度 */
+}
+
+.scroll-fish {
+    width: 100%;
+    height: auto;
+    opacity: 1.0; /* 提高基礎透明度 */
+    filter: drop-shadow(0 4px 12px rgba(139, 69, 19, 0.4)) brightness(1.1) contrast(1.1); /* 增強顏色對比和亮度 */
+    transition: all 0.3s ease;
+}
+
+/* 圖片翻轉效果 */
+.fish-flipped {
+    transform: scaleX(-1) scaleY(-1); /* 左右翻轉 + 上下翻轉 */
+}
+
+/* 滾動動畫效果 */
+.scroll-fish.in-view {
+    opacity: 1.0; /* 在視野中時更加清晰 */
+    transform: scaleX(-1) scaleY(-1) translateY(-20px) rotate(5deg);
+}
+
+/* 響應式調整 */
+@media (max-width: 768px) {
+    .events .fish-decoration {
+        width: 160px; /* 平板尺寸調小 */
+        right: 5%;
+        bottom: 5%;
+    }
+}
+
+@media (max-width: 480px) {
+    .events .fish-decoration {
+        width: 120px; /* 手機尺寸調小 */
+        right: 3%;
+        bottom: 8%;
+    }
+}
+
+/* 服務項目鯉魚2裝飾 */
+.services-fish-decoration {
+    position: absolute;
+    top: 20%;
+    left: 5%;
+    width: 180px;
+    height: auto;
+    z-index: 2;
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.fish-2-decoration {
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 3px 8px rgba(139, 69, 19, 0.3)) brightness(1.05) contrast(1.05);
+    transition: all 0.3s ease;
+    transform: rotate(-15deg); /* 輕微旋轉 */
+}
+
+/* 服務項目區域設定為相對定位 */
+.services {
+    position: relative;
+}
+
+/* 響應式調整 */
+@media (max-width: 768px) {
+    .services-fish-decoration {
+        width: 140px;
+        left: 3%;
+        top: 15%;
+    }
+}
+
+@media (max-width: 480px) {
+    .services-fish-decoration {
+        width: 100px;
+        left: 2%;
+        top: 10%;
+        opacity: 0.6;
+    }
+}
+
+/* 九龍真經獨立章節樣式 */
+.scripture {
+    background: var(--background-light);
+    padding: var(--spacing-xxl) 0;
+    position: relative;
+}
+
+.scripture::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="150" height="150"><defs><filter id="paperTexture3"><feTurbulence baseFrequency="0.03" numOctaves="3" result="noise" seed="4"/><feDiffuseLighting in="noise" lighting-color="white" surfaceScale="0.4"><feDistantLight azimuth="45" elevation="60"/></feDiffuseLighting></filter></defs><rect width="100%" height="100%" fill="%23f4f1e8" filter="url(%23paperTexture3)" opacity="0.3"/></svg>');
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.scripture-decorative-frame {
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+    background: linear-gradient(135deg, #fdfcfa 0%, #f9f7f2 100%);
+    border: 2px solid rgba(139, 69, 19, 0.4);
+    border-radius: 20px;
+    padding: var(--spacing-xxl) var(--spacing-xl);
+    box-shadow: 
+        0 20px 60px rgba(139, 69, 19, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+/* 裝飾角落 */
+.frame-corner {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border: 3px solid rgba(139, 69, 19, 0.6);
+    background: linear-gradient(45deg, rgba(212, 165, 116, 0.2), rgba(139, 69, 19, 0.1));
+}
+
+.frame-corner.top-left {
+    top: -3px;
+    left: -3px;
+    border-right: none;
+    border-bottom: none;
+    border-top-left-radius: 20px;
+}
+
+.frame-corner.top-right {
+    top: -3px;
+    right: -3px;
+    border-left: none;
+    border-bottom: none;
+    border-top-right-radius: 20px;
+}
+
+.frame-corner.bottom-left {
+    bottom: -3px;
+    left: -3px;
+    border-right: none;
+    border-top: none;
+    border-bottom-left-radius: 20px;
+}
+
+.frame-corner.bottom-right {
+    bottom: -3px;
+    right: -3px;
+    border-left: none;
+    border-top: none;
+    border-bottom-right-radius: 20px;
+}
+
+/* 裝飾線條 */
+.frame-corner::before {
+    content: '';
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background: 
+        repeating-linear-gradient(45deg,
+            transparent 0px,
+            rgba(139, 69, 19, 0.3) 2px,
+            rgba(139, 69, 19, 0.3) 4px,
+            transparent 6px,
+            transparent 10px);
+    border-radius: 50%;
+}
+
+.frame-corner.top-left::before {
+    top: 10px;
+    left: 10px;
+}
+
+.frame-corner.top-right::before {
+    top: 10px;
+    right: 10px;
+}
+
+.frame-corner.bottom-left::before {
+    bottom: 10px;
+    left: 10px;
+}
+
+.frame-corner.bottom-right::before {
+    bottom: 10px;
+    right: 10px;
+}
+
+.frame-content {
+    text-align: center;
+    position: relative;
+    z-index: 2;
+}
+
+.scripture .scripture-icon {
+    font-size: 4rem;
+    margin-bottom: var(--spacing-lg);
+    filter: drop-shadow(0 4px 8px rgba(139, 69, 19, 0.3));
+}
+
+.scripture .scripture-title {
+    font-family: var(--font-serif);
+    font-size: 2.5rem;
+    color: var(--secondary-color);
+    margin-bottom: var(--spacing-md);
+    letter-spacing: 0.3em;
+    font-weight: 700;
+    text-shadow: 1px 1px 2px rgba(139, 69, 19, 0.2);
+    position: relative;
+}
+
+.scripture .scripture-title::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 4px;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(139, 69, 19, 0.8) 50%, 
+        transparent 100%);
+    border-radius: 2px;
+}
+
+.scripture-subtitle {
+    font-family: var(--font-serif);
+    font-size: 1.4rem;
+    color: rgba(139, 69, 19, 0.9);
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    line-height: 1.8;
+    margin-bottom: var(--spacing-xl);
+    font-style: italic;
+}
+
+.scripture-text {
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(139, 69, 19, 0.2);
+    border-radius: 15px;
+    padding: var(--spacing-xl);
+    margin-top: var(--spacing-lg);
+    position: relative;
+}
+
+.scripture-text::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 20px;
+    background: linear-gradient(135deg, #fdfcfa 0%, #f9f7f2 100%);
+    border: 1px solid rgba(139, 69, 19, 0.2);
+    border-bottom: none;
+    border-radius: 10px 10px 0 0;
+}
+
+.scripture-text p {
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    line-height: 2;
+    color: rgba(44, 24, 16, 0.9);
+    letter-spacing: 0.08em;
+    text-align: justify;
+    text-indent: 2.5em;
+    margin: 0;
+    padding: var(--spacing-sm) 0;
+}
+
+/* 響應式設計 */
+@media (max-width: 768px) {
+    .scripture-decorative-frame {
+        margin: 0 var(--spacing-md);
+        padding: var(--spacing-xl) var(--spacing-lg);
+    }
+    
+    .frame-corner {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .frame-corner::before {
+        width: 20px;
+        height: 20px;
+    }
+    
+    .frame-corner.top-left::before,
+    .frame-corner.top-right::before {
+        top: 6px;
+    }
+    
+    .frame-corner.top-left::before,
+    .frame-corner.bottom-left::before {
+        left: 6px;
+    }
+    
+    .frame-corner.top-right::before,
+    .frame-corner.bottom-right::before {
+        right: 6px;
+    }
+    
+    .frame-corner.bottom-left::before,
+    .frame-corner.bottom-right::before {
+        bottom: 6px;
+    }
+    
+    .scripture .scripture-title {
+        font-size: 2rem;
+    }
+    
+    .scripture-subtitle {
+        font-size: 1.1rem;
+    }
+    
+    .scripture-text p {
+        font-size: 1.1rem;
+        text-indent: 2em;
+    }
+}
+
+@media (max-width: 480px) {
+    .scripture .scripture-icon {
+        font-size: 3rem;
+    }
+    
+    .scripture .scripture-title {
+        font-size: 1.6rem;
+        letter-spacing: 0.2em;
+    }
+    
+    .scripture-subtitle {
+        font-size: 1rem;
+    }
+    
+    .scripture-text p {
+        font-size: 1rem;
+        line-height: 1.8;
+        text-indent: 1.5em;
+    }
 }
 
 /* 活動公告章節 */
@@ -1154,17 +2150,6 @@ section {
     }
 }
 
-/* 活動章節 */
-.events {
-    background: var(--background-white);
-}
-
-.events-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: var(--spacing-lg);
-}
-
 /* 服務章節 */
 .services {
     background: var(--background-light);
@@ -1206,21 +2191,91 @@ section {
     line-height: 1.6;
 }
 
-.map-placeholder {
-    background: var(--background-light);
-    border: 2px dashed var(--border-light);
-    border-radius: var(--radius-md);
-    height: 300px;
-    display: flex;
+/* Facebook連結樣式 */
+.facebook-link {
+    color: #1877f2;
+    text-decoration: none;
+    display: inline-flex;
     align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+    transition: var(--transition-normal);
+    padding: 0.5rem 0;
+    border-radius: var(--radius-sm);
+}
+
+.facebook-link:hover {
+    color: #166fe5;
+    background: rgba(24, 119, 242, 0.1);
+    padding: 0.5rem 0.8rem;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(24, 119, 242, 0.2);
+}
+
+/* Google地圖樣式 */
+.google-map {
+    background: var(--background-light);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(139, 69, 19, 0.2);
+    border: 3px solid rgba(139, 69, 19, 0.3);
+    margin-bottom: var(--spacing-md);
+}
+
+.google-map iframe {
+    width: 100%;
+    height: 400px;
+    border: none;
+    border-radius: var(--radius-md);
+}
+
+/* 地圖鏈接 */
+.map-links {
+    display: flex;
+    gap: var(--spacing-sm);
     justify-content: center;
-    color: var(--text-muted);
+    flex-wrap: wrap;
+}
+
+.map-link {
+    display: inline-block;
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: rgba(139, 69, 19, 0.1);
+    color: var(--secondary-color);
+    text-decoration: none;
+    border-radius: var(--radius-sm);
+    border: 2px solid rgba(139, 69, 19, 0.3);
+    font-family: var(--font-serif);
+    font-weight: 500;
+    transition: all var(--transition-normal);
+    font-size: 0.9rem;
+}
+
+.map-link:hover {
+    background: var(--secondary-color);
+    color: var(--background-white);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(139, 69, 19, 0.3);
 }
 
 @media (max-width: 768px) {
     .contact-content {
         grid-template-columns: 1fr;
         gap: var(--spacing-lg);
+    }
+    
+    .google-map iframe {
+        height: 300px;
+    }
+    
+    .map-links {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .map-link {
+        width: 80%;
+        text-align: center;
     }
 }
 
@@ -1402,6 +2457,28 @@ section {
     
     .features {
         grid-template-columns: 1fr;
+    }
+    
+    /* 手機版圖片標題調整 */
+    .hero-title-image-file {
+        max-width: min(90vw, 400px) !important;
+        margin-bottom: 1.5rem !important;
+    }
+    
+    /* 手機版標題圖檔調整 */
+    .hero-title-black {
+        font-size: clamp(2.5rem, 8vw, 4rem) !important;
+        letter-spacing: 0.1em !important;
+    }
+    
+    .hero-title-image::before {
+        font-size: clamp(2.5rem, 8vw, 4rem);
+        letter-spacing: 0.1em;
+    }
+    
+    /* 手機版下探聖境調整 */
+    .scroll-indicator {
+        bottom: -30px; /* 手機版也往上調整 */
     }
 }
 
