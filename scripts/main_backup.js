@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initInteractiveElements();
     initInkDropTransition(); // 初始化潑墨轉場動畫
     initScrollFish(); // 初始化滾動鯉魚動畫
+    initContactForm(); // 初始化聯絡表單
 });
 
 // 載入活動公告內容
@@ -138,43 +139,43 @@ function loadDeitiesContent() {
     const deitiesData = [
         {
             name: '九龍大帝',
-            image: '九龍大帝.jpg',
-            description: '九龍大帝為本殿主神，威靈顯赫，護佑一方平安，信眾遍及各地。傳說中九龍大帝乃天界龍神轉世，擁有呼風喚雨、驅邪避災之神力，是信眾心中最為尊崇的神祇。',
-            role: '護國佑民',
-            power: '呼風喚雨',
+            image: 'src/assets/god-jiulong.jpg',
+            description: '九龍下降八鳳齊共收圓，大帝上台乾坤扭轉到歸一。',
+            role: '主神',
+            power: '乾坤歸一、八鳳共圓',
             seal: '主神',
             isMain: true
         },
         {
             name: '瑶池金母',
-            image: '瑤池金母.jpg',
-            description: '瑤池金母，道教中的至尊女神，西王母之尊稱。掌管長壽與福祿，慈悲為懷，庇佑女性與家庭和睦，為求子求福的信眾所敬仰。',
-            role: '長壽福祿',
-            power: '慈悲庇佑',
+            image: 'src/assets/god-yao-chi-jin-mu.jpg',
+            description: '瑤池金仙下降中台收果圓，金母慈慧幻化靈兒渡慈航。',
+            role: '配祀',
+            power: '慈慧渡化、收果圓滿',
             seal: '母神',
             isMain: false
         },
         {
             name: '東王木公',
-            image: '東王木公.jpg',
-            description: '東華帝君，與西王母相對的仙界領袖。掌管東方青木之氣，主宰春生萬物，為男性修道者的典範，庇佑事業功名。',
-            role: '東方帝君',
-            power: '春生萬物',
+            image: 'src/assets/god-mu-gong.jpg',
+            description: '東王顯化三教九流道為尊，木公收圓五湖四海靈皆歸。',
+            role: '配祀',
+            power: '三教統攝、四海歸真',
             seal: '帝君',
             isMain: false
         },
         {
             name: '神農藥王',
-            image: '神農藥王.jpg',
-            description: '神農大帝，上古三皇之一，醫藥之神。嘗百草以療民疾，教民稼穡，濟世救人。凡有病痛者虔誠祈求，必能獲得庇佑。',
-            role: '醫藥之神',
-            power: '濟世救人',
+            image: 'src/assets/god-shen-nong.jpg',
+            description: '神農慈悲賜藥炁，農士工商皆平等，藥炁轉化蓮花心，王族庶民無分別。',
+            role: '配祀',
+            power: '藥炁濟世、平等慈悲',
             seal: '藥王',
             isMain: false
         },
         {
             name: '福德正神',
-            image: '福德正神(土地公).jpg',
+            image: 'src/assets/god-tu-di-gong.jpg',
             description: '土地公，民間最親近的神祇，守護地方平安與財運。慈祥和藹，有求必應，是百姓生活中不可或缺的守護神。',
             role: '地方守護',
             power: '福德財運',
@@ -183,7 +184,7 @@ function loadDeitiesContent() {
         },
         {
             name: '金光老祖',
-            image: '金光老主.jpg',
+            image: 'src/assets/god-jin-guang.jpg',
             description: '金光仙師，道教重要神祇，修道有成的仙人典範。以金光護體聞名，能驅邪避凶，為修道者指引明路。',
             role: '道教仙師',
             power: '金光護體',
@@ -192,19 +193,19 @@ function loadDeitiesContent() {
         },
         {
             name: '魁斗星君',
-            image: '魁斗星君.jpg',
-            description: '文昌帝君，掌管功名利祿與文運。北斗七星之首，庇佑讀書人金榜題名，為求學考試者所敬奉。',
-            role: '文昌帝君',
-            power: '功名文運',
+            image: 'src/assets/god-kui-dou.jpg',
+            description: '魁星點斗天機顯，星宿之首領七星，獨占鰲頭點狀元，功名官運因果論。',
+            role: '配祀',
+            power: '點斗顯機、功名官運',
             seal: '星君',
             isMain: false
         },
         {
-            name: '中央老祖',
-            image: '中央老祖.jpg',
-            description: '中央聖帝，統領四方神明的至尊存在。居於中央，調和五行，維持天地秩序，是道教中地位崇高的神祇。',
-            role: '中央聖帝',
-            power: '統領四方',
+            name: '中央混元黃老君',
+            image: 'src/assets/god-central-ancestor.jpg',
+            description: '五方五老源木公，五老之首黃老君，中央混元一炁在，黃老渡化存道心。',
+            role: '配祀',
+            power: '混元一炁、渡化存心',
             seal: '老祖',
             isMain: false
         }
@@ -279,6 +280,48 @@ function updateDeityDisplay(item) {
             infoPanel.style.transform = 'translateX(0)';
         }, 150);
     }
+}
+
+function initContactForm() {
+    const form = document.getElementById('contactEmailForm');
+    if (!form) return;
+
+    const feedback = document.getElementById('contactFormFeedback');
+    const recipient = 'jiulongdian2009@gmail.com';
+
+    form.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(form);
+        const category = String(formData.get('category') || '').trim();
+        const senderEmail = String(formData.get('senderEmail') || '').trim();
+        const subject = String(formData.get('subject') || '').trim();
+        const message = String(formData.get('message') || '').trim();
+
+        if (!category || !senderEmail || !subject || !message) {
+            if (feedback) {
+                feedback.textContent = '請完整填寫分類、電子郵件、主旨與內容後再寄送。';
+            }
+            return;
+        }
+
+        const mailSubject = `[${category}] ${subject}`;
+        const mailBody = [
+            `聯絡分類：${category}`,
+            `寄件者信箱：${senderEmail}`,
+            '',
+            '聯絡內容：',
+            message
+        ].join('\n');
+
+        const mailtoUrl = `mailto:${recipient}?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(mailBody)}`;
+
+        if (feedback) {
+            feedback.textContent = '正在為你開啟寄信視窗，若未跳出可檢查裝置是否已設定電子郵件程式。';
+        }
+
+        window.location.href = mailtoUrl;
+    });
 }
 
 // 導航功能

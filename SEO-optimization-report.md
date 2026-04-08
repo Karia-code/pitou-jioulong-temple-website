@@ -12,11 +12,11 @@
 ### 2. Open Graph / Social Media 優化
 - ✅ Facebook Open Graph 標籤完整設置
 - ✅ Twitter Card 設置
-- ✅ 社群媒體分享圖片設置：使用九龍大帝.jpg
+- ✅ 社群媒體分享圖片設置：使用 `src/assets/god-jiulong.jpg`
 - ✅ 地區設置：zh_TW
 
 ### 3. 網站圖示 (Favicon)
-- ✅ 設置 Favicon：使用小鯉魚.png
+- ✅ 設置 Favicon：使用 `public/favicons/logo-carp.png`
 - ✅ Apple Touch Icon 設置
 - ✅ 多尺寸圖示支援
 
@@ -28,8 +28,8 @@
 - ✅ 地理座標設置
 
 ### 5. 技術 SEO
-- ✅ 創建 sitemap.xml：包含所有重要頁面
-- ✅ 創建 robots.txt：指引搜尋引擎爬蟲
+- ✅ 創建 `public/sitemap.xml`：包含所有重要頁面
+- ✅ 創建 `public/robots.txt`：指引搜尋引擎爬蟲
 - ✅ 圖片 Alt 文字優化：所有圖片都有詳細描述
 - ✅ 語義化 HTML：使用正確的標籤結構
 - ✅ 載入優化：重要圖片設為 eager，其他為 lazy
@@ -53,7 +53,7 @@
 - ✅ 地理位置關鍵字強化
 
 ### 9. Google Search Console
-- ✅ 驗證檔案創建：google27a4f9d41156809.html
+- ✅ 驗證檔案創建：`public/google27a4f9d41156809.html`
 - ✅ 網站所有權驗證準備
 
 ### 10. 附加頁面
@@ -114,10 +114,10 @@
 ## 檔案清單
 
 ### 新增檔案
-- `sitemap.xml` - 搜尋引擎網站地圖
-- `robots.txt` - 爬蟲指引檔案
+- `public/sitemap.xml` - 搜尋引擎網站地圖
+- `public/robots.txt` - 爬蟲指引檔案
 - `sitemap.html` - HTML網站地圖
-- `google27a4f9d41156809.html` - Google驗證檔案
+- `public/google27a4f9d41156809.html` - Google驗證檔案
 
 ### 修改檔案
 - `index.html` - 大幅SEO優化
