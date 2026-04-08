@@ -423,6 +423,45 @@
             </div>
         </section>
 
+        <!-- 聖誕月曆 -->
+        <section id="festival-calendar" class="festival-calendar">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">聖誕月曆</h2>
+                    <p class="section-subtitle">依農曆換算顯示當年神明祝壽日期，方便信眾提前安排參拜行程</p>
+                </div>
+                <div class="calendar-shell">
+                    <div class="calendar-panel">
+                        <div class="calendar-toolbar">
+                            <button type="button" class="calendar-nav-button" id="calendarPrevMonth" aria-label="查看上個月">‹</button>
+                            <div class="calendar-title-wrap">
+                                <p class="calendar-caption">農曆聖誕對照</p>
+                                <h3 id="calendarTitle" class="calendar-title">2026 年 4 月</h3>
+                            </div>
+                            <button type="button" class="calendar-nav-button" id="calendarNextMonth" aria-label="查看下個月">›</button>
+                        </div>
+                        <div class="calendar-legend">
+                            <span class="legend-chip festival">神明祝壽</span>
+                            <span class="legend-chip today">今日</span>
+                        </div>
+                        <div class="calendar-grid" id="festivalCalendarGrid" aria-live="polite"></div>
+                    </div>
+                    <aside class="calendar-sidebar">
+                        <div class="calendar-note-card">
+                            <h3>祝壽提醒</h3>
+                            <p>本月月曆所列日期，係依農曆聖誕日換算之國曆參考日期，現階段以本殿固定神明祝壽日為主，後續將逐步擴充法會與重要祭典資訊。</p>
+                            <p>實際活動時間與祝壽日期，如因法會安排、天時或殿務調整而有所異動，仍請以本殿 Instagram、Threads 與 Facebook 最新公告為準。</p>
+                            <button type="button" class="calendar-today-button" id="calendarTodayButton">回到本月</button>
+                        </div>
+                        <div class="calendar-events-card">
+                            <h3>本月聖誕</h3>
+                            <div id="festivalCalendarEvents" class="calendar-events-list" aria-live="polite"></div>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </section>
+
         <!-- 聯絡我們 -->
         <section id="contact" class="contact">
             <div class="container">

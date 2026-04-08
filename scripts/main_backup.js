@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initInkDropTransition(); // 初始化潑墨轉場動畫
     initScrollFish(); // 初始化滾動鯉魚動畫
     initContactForm(); // 初始化聯絡表單
+    initFestivalCalendar(); // 初始化農曆聖誕月曆
 });
 
 // 載入活動公告內容
@@ -322,6 +323,241 @@ function initContactForm() {
 
         window.location.href = mailtoUrl;
     });
+}
+
+function initFestivalCalendar() {
+    const calendarGrid = document.getElementById('festivalCalendarGrid');
+    const calendarTitle = document.getElementById('calendarTitle');
+    const calendarEvents = document.getElementById('festivalCalendarEvents');
+    const prevButton = document.getElementById('calendarPrevMonth');
+    const nextButton = document.getElementById('calendarNextMonth');
+    const todayButton = document.getElementById('calendarTodayButton');
+
+    if (!calendarGrid || !calendarTitle || !calendarEvents || !prevButton || !nextButton || !todayButton) {
+        return;
+    }
+
+    const now = new Date();
+    let currentMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+
+    const birthdayDefinitions = [
+        { name: '文昌梓潼帝君聖誕', lunarMonth: 2, lunarDay: 3 },
+        { name: '九龍大帝聖誕', lunarMonth: 2, lunarDay: 18 },
+        { name: '天父東王木公降生聖誕', lunarMonth: 3, lunarDay: 4 },
+        { name: '神農葯王聖誕', lunarMonth: 4, lunarDay: 26 },
+        { name: '天母西王瑤池金母娘娘聖誕', lunarMonth: 7, lunarDay: 18 },
+        { name: '金光老祖聖誕', lunarMonth: 12, lunarDay: 5 }
+    ];
+
+    const chineseCalendarFormatter = new Intl.DateTimeFormat('zh-TW-u-ca-chinese', {
+        month: 'numeric',
+        day: 'numeric'
+    });
+
+    const weekdayLabels = ['日', '一', '二', '三', '四', '五', '六'];
+
+    prevButton.addEventListener('click', () => {
+        currentMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1);
+        renderCalendar();
+    });
+
+    nextButton.addEventListener('click', () => {
+        currentMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1);
+        renderCalendar();
+    });
+
+    todayButton.addEventListener('click', () => {
+        currentMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+        renderCalendar();
+    });
+
+    function renderCalendar() {
+        const year = currentMonth.getFullYear();
+        const month = currentMonth.getMonth();
+        const firstDay = new Date(year, month, 1);
+        const firstWeekday = firstDay.getDay();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        const daysInPrevMonth = new Date(year, month, 0).getDate();
+        const birthdayMap = buildBirthdayMap(year);
+
+        calendarTitle.textContent = `${year} 年 ${month + 1} 月`;
+
+        const cells = [];
+
+        weekdayLabels.forEach((label) => {
+            cells.push(`<div class="calendar-weekday">${label}</div>`);
+        });
+
+        for (let i = firstWeekday - 1; i >= 0; i -= 1) {
+            const date = new Date(year, month - 1, daysInPrevMonth - i);
+            cells.push(renderDayCell(date, true, birthdayMap));
+        }
+
+        for (let day = 1; day <= daysInMonth; day += 1) {
+            const date = new Date(year, month, day);
+            cells.push(renderDayCell(date, false, birthdayMap));
+        }
+
+        const totalDayCells = cells.length - weekdayLabels.length;
+        const trailingDays = (7 - (totalDayCells % 7)) % 7;
+        for (let day = 1; day <= trailingDays; day += 1) {
+            const date = new Date(year, month + 1, day);
+            cells.push(renderDayCell(date, true, birthdayMap));
+        }
+
+        calendarGrid.innerHTML = cells.join('');
+        renderMonthlyEventList(year, month, birthdayMap);
+    }
+
+    function renderDayCell(date, isOtherMonth, birthdayMap) {
+        const key = formatDateKey(date);
+        const lunarInfo = getLunarMonthDay(date);
+        const dayEvents = birthdayMap.get(key) || [];
+        const isToday = isSameDate(date, now);
+        const classNames = [
+            'calendar-day',
+            isOtherMonth ? 'is-other-month' : '',
+            isToday ? 'is-today' : '',
+            dayEvents.length > 0 ? 'is-festival' : ''
+        ].filter(Boolean).join(' ');
+
+        const badge = dayEvents.length > 0 ? '<span class="calendar-day-badge">祝壽</span>' : '';
+        const eventsMarkup = dayEvents.length > 0
+            ? `<div class="calendar-day-events">${dayEvents.map((event) => `<div class="calendar-event-pill">${event.name}</div>`).join('')}</div>`
+            : '';
+
+        return `
+            <div class="${classNames}">
+                <div class="calendar-day-number">${date.getDate()}</div>
+                <div class="calendar-day-lunar">農曆 ${lunarInfo.month}月${lunarInfo.day}日</div>
+                ${badge}
+                ${eventsMarkup}
+            </div>
+        `;
+    }
+
+    function renderMonthlyEventList(year, month, birthdayMap) {
+        const entries = Array.from(birthdayMap.entries())
+            .map(([key, events]) => ({
+                key,
+                date: parseDateKey(key),
+                events
+            }))
+            .filter((entry) => entry.date.getFullYear() === year && entry.date.getMonth() === month)
+            .sort((a, b) => a.date - b.date);
+
+        if (entries.length === 0) {
+            calendarEvents.innerHTML = `
+                <div class="calendar-event-card empty">
+                    <span class="calendar-event-date">${year} 年 ${month + 1} 月</span>
+                    <p class="calendar-event-name">本月沒有預設的神明祝壽日。</p>
+                </div>
+            `;
+            return;
+        }
+
+        calendarEvents.innerHTML = entries.map((entry) => `
+            <div class="calendar-event-card">
+                <span class="calendar-event-date">${entry.date.getFullYear()} 年 ${entry.date.getMonth() + 1} 月 ${entry.date.getDate()} 日</span>
+                <p class="calendar-event-name">${entry.events.map((event) => event.name).join('、')}</p>
+            </div>
+        `).join('');
+    }
+
+    function buildBirthdayMap(year) {
+        const map = new Map();
+        const start = new Date(year, 0, 1);
+        const end = new Date(year, 11, 31);
+
+        for (let cursor = new Date(start); cursor <= end; cursor.setDate(cursor.getDate() + 1)) {
+            const date = new Date(cursor);
+            const lunarInfo = getLunarMonthDay(date);
+            const matches = birthdayDefinitions.filter((festival) =>
+                festival.lunarMonth === lunarInfo.month && festival.lunarDay === lunarInfo.day
+            );
+
+            if (matches.length > 0) {
+                map.set(formatDateKey(date), matches);
+            }
+        }
+
+        return map;
+    }
+
+    function getLunarMonthDay(date) {
+        const parts = chineseCalendarFormatter.formatToParts(date);
+        const monthPart = parts.find((part) => part.type === 'month');
+        const dayPart = parts.find((part) => part.type === 'day');
+
+        return {
+            month: normalizeChineseNumber(monthPart ? monthPart.value : ''),
+            day: normalizeChineseNumber(dayPart ? dayPart.value : '')
+        };
+    }
+
+    function normalizeChineseNumber(value) {
+        const cleaned = String(value).replace(/[^0-9一二三四五六七八九十正冬臘閏]/g, '');
+        const withoutLeap = cleaned.replace(/^閏/, '');
+
+        if (/^\d+$/.test(withoutLeap)) {
+            return Number(withoutLeap);
+        }
+
+        const specialMap = {
+            正: 1,
+            冬: 11,
+            臘: 12
+        };
+
+        if (specialMap[withoutLeap]) {
+            return specialMap[withoutLeap];
+        }
+
+        const charMap = {
+            一: 1,
+            二: 2,
+            三: 3,
+            四: 4,
+            五: 5,
+            六: 6,
+            七: 7,
+            八: 8,
+            九: 9
+        };
+
+        if (withoutLeap === '十') return 10;
+        if (withoutLeap.startsWith('十')) {
+            return 10 + (charMap[withoutLeap.slice(1)] || 0);
+        }
+        if (withoutLeap.endsWith('十')) {
+            return (charMap[withoutLeap[0]] || 0) * 10;
+        }
+        if (withoutLeap.includes('十')) {
+            const [tens, ones] = withoutLeap.split('十');
+            return (charMap[tens] || 0) * 10 + (charMap[ones] || 0);
+        }
+
+        return charMap[withoutLeap] || 0;
+    }
+
+    function formatDateKey(date) {
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${date.getFullYear()}-${month}-${day}`;
+    }
+
+    function parseDateKey(key) {
+        const [year, month, day] = key.split('-').map(Number);
+        return new Date(year, month - 1, day);
+    }
+
+    function isSameDate(a, b) {
+        return a.getFullYear() === b.getFullYear()
+            && a.getMonth() === b.getMonth()
+            && a.getDate() === b.getDate();
+    }
+
+    renderCalendar();
 }
 
 // 導航功能
