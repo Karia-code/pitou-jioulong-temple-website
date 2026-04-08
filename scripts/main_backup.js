@@ -50,7 +50,7 @@ function loadAnnouncementsContent() {
         {
             date: '全年度',
             title: '各神明聖誕慶典',
-            content: '農曆2/3文昌梓潼帝君、3/4東王木公、4/26神農藥王、7/18瑤池金母、12/5金光老祖聖誕慶典。',
+            content: '農曆2/3文昌梓潼帝君、2/18九龍大帝、3/4天父東王木公、4/8神農藥王、7/7魁斗星君、7/18天母西王瑤池金母娘娘、12/5金光老祖聖誕慶典。',
             priority: 'normal',
             type: '神明聖誕'
         }
@@ -177,18 +177,18 @@ function loadDeitiesContent() {
         {
             name: '福德正神',
             image: 'src/assets/god-tu-di-gong.jpg',
-            description: '土地公，民間最親近的神祇，守護地方平安與財運。慈祥和藹，有求必應，是百姓生活中不可或缺的守護神。',
-            role: '地方守護',
-            power: '福德財運',
+            description: '福德正神安社稷，土地護佑萬家春，財庫廣開添福壽，慈心應化濟黎民。',
+            role: '配祀',
+            power: '護境賜福、安宅興財',
             seal: '正神',
             isMain: false
         },
         {
             name: '金光老祖',
             image: 'src/assets/god-jin-guang.jpg',
-            description: '金光仙師，道教重要神祇，修道有成的仙人典範。以金光護體聞名，能驅邪避凶，為修道者指引明路。',
-            role: '道教仙師',
-            power: '金光護體',
+            description: '金光護體照玄門，老祖垂慈定道魂，驅邪化煞開明路，法炁長存引善根。',
+            role: '配祀',
+            power: '金光護體、驅邪開道',
             seal: '仙師',
             isMain: false
         },
@@ -344,7 +344,8 @@ function initFestivalCalendar() {
         { name: '文昌梓潼帝君聖誕', lunarMonth: 2, lunarDay: 3 },
         { name: '九龍大帝聖誕', lunarMonth: 2, lunarDay: 18 },
         { name: '天父東王木公降生聖誕', lunarMonth: 3, lunarDay: 4 },
-        { name: '神農葯王聖誕', lunarMonth: 4, lunarDay: 26 },
+        { name: '神農葯王聖誕', lunarMonth: 4, lunarDay: 8 },
+        { name: '魁斗星君聖誕', lunarMonth: 7, lunarDay: 7 },
         { name: '天母西王瑤池金母娘娘聖誕', lunarMonth: 7, lunarDay: 18 },
         { name: '金光老祖聖誕', lunarMonth: 12, lunarDay: 5 }
     ];
@@ -768,7 +769,7 @@ function loadEventsContent() {
         {
             title: '神聖誕日慶典',
             date: '全年度',
-            description: '農曆2/3文昌梓潼帝君、2/18九龍大帝、3/4東王木公、4/26神農藥王、7/18瑤池金母、12/5金光老祖聖誕',
+            description: '農曆2/3文昌梓潼帝君、2/18九龍大帝、3/4天父東王木公、4/8神農藥王、7/7魁斗星君、7/18天母西王瑤池金母娘娘、12/5金光老祖聖誕',
             image: '🐲',
             type: 'major'
         },
